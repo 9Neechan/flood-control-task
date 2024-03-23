@@ -2,16 +2,21 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"time"
+
+	"task/internal/flood_control"
 )
 
 func main() {
+	fc := floodcontrol.NewFC(context.Background())
 
-}
-
-// FloodControl интерфейс, который нужно реализовать.
-// Рекомендуем создать директорию-пакет, в которой будет находиться реализация.
-type FloodControl interface {
-	// Check возвращает false если достигнут лимит максимально разрешенного
-	// кол-ва запросов согласно заданным правилам флуд контроля.
-	Check(ctx context.Context, userID int64) (bool, error)
+	for userID := 215; userID < 220; userID++ {
+		for i := 0; i < 15; i++ {
+			// первые 10 запросов пройдут проверку, остальные 5 - нет
+			ans, err := fc.Check(context.Background(),int64(userID))
+			fmt.Println(i, ans, err)
+			time.Sleep(time.Second) // 1 sec
+		}
+	}
 }
