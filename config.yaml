@@ -1,3 +1,0 @@
-flood_control:
-  time_interval: 5
-  max_requests: 3
